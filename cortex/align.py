@@ -275,7 +275,7 @@ def automatic(subject, xfmname, reference, noclean=False, bbrtype="signed", pre_
             print('Running freesurfer BBR')
             cmd = 'bbregister --s {sub} --mov {absref} --init-fsl --reg {cache}/register.dat --t2'
             cmd = cmd.format(sub=subject, absref=absreference, cache=cache)
-
+            print(cmd)
             if sp.call(cmd, shell=True) != 0:
                 raise IOError('Error calling freesurfer BBR!')
 
@@ -288,6 +288,7 @@ def automatic(subject, xfmname, reference, noclean=False, bbrtype="signed", pre_
             print('FLIRT pre-alignment')
             cmd = '{fslpre}flirt  -in {epi} -ref {bet} -dof 6 {pre_flirt_args} -omat {cache}/init.mat'.format(
                fslpre=fsl_prefix, cache=cache, epi=absreference, bet=bet, pre_flirt_args=pre_flirt_args)
+            print(cmd)
             if sp.call(cmd, shell=True) != 0:
                raise IOError('Error calling initial FLIRT')
 
