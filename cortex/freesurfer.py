@@ -230,6 +230,10 @@ def import_flat(fs_subject, patch, hemis=['lh', 'rh'], cx_subject=None,
         List of hemispheres to import. Defaults to both hemispheres.
     cx_subject : str
         Pycortex subject name
+    flat_type : str
+        The source of the flatmap, default is 'freesurfer'. Other options include
+        'slim' for flatmaps create with SLIM method, or 'fs6' for freesurfer 
+        flatmaps that have the wrong orientation.
     freesurfer_subject_dir : str
         directory for freesurfer subjects. None defaults to evironment variable
         $SUBJECTS_DIR
@@ -261,6 +265,9 @@ def import_flat(fs_subject, patch, hemis=['lh', 'rh'], cx_subject=None,
             flat = pts[:, [1, 0, 2]]
             # Flip Y axis upside down
             flat[:, 1] = -flat[:, 1]
+        elif flat_type == 'fs6':
+            # Reorientation not needed
+            flat, polys, _ = get_surf(fs_subject, hemi, "patch", patch+".flat", freesurfer_subject_dir=freesurfer_subject_dir)
         elif flat_type == 'slim':
             flat_file = get_paths(fs_subject, hemi, type='slim',
                                   freesurfer_subject_dir=freesurfer_subject_dir)
